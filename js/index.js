@@ -1,5 +1,5 @@
-import Card from './Card.js'
+import Game from './Game.js'
 
-let aCard = new Card()
+let game = new Game(2, ['Hector', 'Santi'], document.querySelector('main'))
 
-document.body.appendChild(aCard.getHtmlCard())
+console.log(game)
