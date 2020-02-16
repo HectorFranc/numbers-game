@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.card {
+    border: 1px solid black;
+    border-radius: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.card--small {
+    width: 150px;
+    height: 225px;
+}
+
+.card--large {
+    width: 200px;
+    height: 300px;
+}
+
+.card--red {
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 10, 10));
+}
+
+.card--green {
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(51, 255, 10));
+}
+
+.card--yellow {
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 239, 10));
+}
+
+.card--blue {
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(0, 65, 135));
+}
+
+.card--black {
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(0, 0, 0));
+}
+
+.card__corner {
+    color: white;
+    font-size: 50px;
+    /* TODO Fix with grid */
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.card__number {
+    color: black;
+    font-size: 100px;
+    /* TODO Fix with grid */
+    margin-top: 30px;
+    margin-left: 70px;
+}
