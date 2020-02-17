@@ -33,7 +33,11 @@ class Game {
       this.stackOfCards.pushCard(new Card('C', 'black', true))
     }
 
-    this.actualCard = this.stackOfCards.popRandomCard()
+    this.actualCard = this.stackOfCards.popRandomCard(false)
+    this.actualInfo = {
+      color: this.actualCard.color,
+      number: this.actualCard.symbol
+    }
   }
 
   populatePlayersDecks() {
@@ -47,6 +51,10 @@ class Game {
   }
 
   updateBoard() {
+    this.playerNameContainer = document.createElement('div')
+    this.playerNameContainer.classList.add('playerName')
+    this.playerNameContainer.innerText = Object.keys(this.playersDecks)[this.actualPlayerIndex]
+
     this.actualCardContainerHtml = document.createElement('div')
     this.actualCardContainerHtml.classList.add('actualCard')
     this.actualCardContainerHtml.appendChild(this.actualCard.getHtmlCard(false))
@@ -55,6 +63,7 @@ class Game {
     this.actualDeckContainerHtml.classList.add('actualPlayerDeck')
     this.actualDeckContainerHtml.appendChild(this.getPlayerDeck(this.actualPlayerIndex).getDeckHtmlElement())
 
+    this.root.appendChild(this.playerNameContainer)
     this.root.appendChild(this.actualCardContainerHtml)
     this.root.appendChild(this.actualDeckContainerHtml)
   }
