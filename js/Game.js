@@ -62,6 +62,7 @@ class Game {
 
     this.actualDeckContainerHtml = this.actualDeckContainerHtml || document.createElement('div')
     this.actualDeckContainerHtml.classList.add('actualPlayerDeck')
+    this.actualDeckContainerHtml.innerHTML = ''
     this.actualDeckContainerHtml.appendChild(this.getPlayerDeck(this.actualPlayerIndex).getDeckHtmlElement())
 
     this.root.appendChild(this.playerNameContainer)
@@ -83,14 +84,13 @@ class Game {
   }
 
   nextTurn(){
-    console.log(this)
     this.nextPlayer()
+    this.updateBoard()
   }
 
   updateActualCard(card, info={}) {
     this.stackOfCards.pushCard(this.actualCard)
     this.actualCard = card
-    this.updateBoard()
     this.actualInfo = {
       color: card.color,
       symbol: card.symbol
@@ -102,7 +102,11 @@ class Game {
   }
 
   nextPlayer() {
-
+    if(this.actualPlayerIndex + 1 < Object.keys(this.playersDecks).length) {
+      this.actualPlayerIndex += 1
+    } else {
+      this.actualPlayerIndex = 0
+    }
   }
 }
 
