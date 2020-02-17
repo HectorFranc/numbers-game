@@ -12,6 +12,7 @@ class Game {
     this.playersDecks = Object.fromEntries(playersNames.map(name => [name, new Deck()]))
 
     this.clickCallbackHandler = this.clickCallbackHandler.bind(this)
+    this.eatCardButtonHandler = this.eatCardButtonHandler.bind(this)
     this._init()
   }
 
@@ -33,7 +34,6 @@ class Game {
       this.stackOfCards.pushCard(new Card('C', 'black', true, this.clickCallbackHandler))
       this.stackOfCards.pushCard(new Card('C', 'black', true, this.clickCallbackHandler))
     }
-
     this.actualCard = this.stackOfCards.popRandomCard(false)
     this.actualInfo = {
       color: this.actualCard.color,
@@ -65,9 +65,15 @@ class Game {
     this.actualDeckContainerHtml.innerHTML = ''
     this.actualDeckContainerHtml.appendChild(this.getPlayerDeck(this.actualPlayerIndex).getDeckHtmlElement())
 
+    this.eatCardButton = this.eatCardButton || document.createElement('div')
+    this.eatCardButton.innerHTML = '<p>Eat a card</p>'
+    this.eatCardButton.classList.add('eatCardButton')
+    this.eatCardButton.addEventListener('click', this.eatCardButtonHandler)
+
     this.root.appendChild(this.playerNameContainer)
     this.root.appendChild(this.actualCardContainerHtml)
     this.root.appendChild(this.actualDeckContainerHtml)
+    this.root.appendChild(this.eatCardButton)
   }
 
   getPlayerDeck(playerIndex) {
@@ -106,6 +112,15 @@ class Game {
       this.actualPlayerIndex += 1
     } else {
       this.actualPlayerIndex = 0
+    }
+  }
+
+  eatCardButtonHandler() {
+    if(this.stackOfCards.deckList.length > 0) {
+      let card = this.stackOfCards.popRandomCard(true)
+      this.getPlayerDeck(this.actualPlayerIndex).pushCard(card)
+    } else {
+      alert('There aren\'t any cards')
     }
   }
 }
