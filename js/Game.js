@@ -12,7 +12,7 @@ class Game {
     this.playersDecks = Object.fromEntries(playersNames.map(name => [name, new Deck()]))
 
     this.clickCallbackHandler = this.clickCallbackHandler.bind(this)
-    this.eatCardButtonHandler = this.eatCardButtonHandler.bind(this)
+    this.eatACard = this.eatACard.bind(this)
     this._init()
   }
 
@@ -68,7 +68,7 @@ class Game {
     this.eatCardButton = this.eatCardButton || document.createElement('div')
     this.eatCardButton.innerHTML = '<p>Eat a card</p>'
     this.eatCardButton.classList.add('eatCardButton')
-    this.eatCardButton.addEventListener('click', this.eatCardButtonHandler)
+    this.eatCardButton.addEventListener('click', this.eatACard)
 
     this.root.appendChild(this.playerNameContainer)
     this.root.appendChild(this.actualCardContainerHtml)
@@ -85,13 +85,8 @@ class Game {
     if(this.verifyCorrectCard(clickedCard)) {
       this.getPlayerDeck(this.actualPlayerIndex).removeCard(clickedCard)
       this.updateActualCard(clickedCard)
-      this.nextTurn()
+      this.nextTurn(clickedCard)
     }
-  }
-
-  nextTurn(){
-    this.nextPlayer()
-    this.updateBoard()
   }
 
   updateActualCard(card, info={}) {
@@ -107,7 +102,16 @@ class Game {
     return card.color == 'black' || card.color == this.actualInfo.color || card.symbol == this.actualInfo.symbol
   }
 
-  nextPlayer() {
+  nextTurn(clickedCard){
+    if(clickedCard.special) {
+      this.specialCardHandler(clickedCard)
+    } else {
+      this.nextPlayer()
+    }
+    this.updateBoard()
+  }
+  
+  nextPlayer(clickedCard) {
     if(this.actualPlayerIndex + 1 < Object.keys(this.playersDecks).length) {
       this.actualPlayerIndex += 1
     } else {
@@ -115,7 +119,22 @@ class Game {
     }
   }
 
-  eatCardButtonHandler() {
+  specialCardHandler(card) {
+    switch (card.symbol) {
+      case '+2':
+        this.nextPlayer()
+        this.eatACard()
+        this.eatACard()
+        this.nextPlayer()
+        break;
+      
+      case 'C':
+
+        break;
+    }
+  }
+
+  eatACard() {
     if(this.stackOfCards.deckList.length > 0) {
       let card = this.stackOfCards.popRandomCard(true)
       this.getPlayerDeck(this.actualPlayerIndex).pushCard(card)
