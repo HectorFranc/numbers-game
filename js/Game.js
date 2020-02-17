@@ -83,9 +83,14 @@ class Game {
 
   clickCallbackHandler(event, clickedCard) {
     if(this.verifyCorrectCard(clickedCard)) {
-      this.getPlayerDeck(this.actualPlayerIndex).removeCard(clickedCard)
-      this.updateActualCard(clickedCard)
-      this.nextTurn(clickedCard)
+      let normalDisplay = this.root.style.display || 'flex'
+      this.root.style.display = 'none'
+      setTimeout((() => {
+        this.getPlayerDeck(this.actualPlayerIndex).removeCard(clickedCard)
+        this.updateActualCard(clickedCard)
+        this.nextTurn(clickedCard)
+        this.root.style.display = normalDisplay
+      }).bind(this), 500)
     }
   }
 
