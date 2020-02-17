@@ -36,8 +36,15 @@ class Deck {
     return card
   }
 
-  popRandomCard() {
-    return this.popCardHtmlElementByIndex(Math.floor(Math.random() * this.deckList.length))
+  popRandomCard(canBeSpecial=true) {
+    if(canBeSpecial) {
+      return this.popCardHtmlElementByIndex(Math.floor(Math.random() * this.deckList.length))
+    } else {
+      let tmp = this.deckList.filter(card => !card.special)
+      let card = tmp[Math.floor(Math.random() * tmp.length)]
+      this.removeCard(card)
+      return card
+    }
   }
 }
 
