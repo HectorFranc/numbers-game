@@ -1,10 +1,13 @@
 // TODO: Validate colors and symbols are correct
 
 class Card {
-  constructor(symbol='0', color='red', special=false) {
+  constructor(symbol='0', color='red', special=false, clickCallback=()=>{}) {
     this.special = special
     this.color = color
     this.symbol = symbol
+    this.clickCallback = ((event) => {
+      clickCallback(event, this)
+    }).bind(this)
 
     this._createHtmlCard()
   }
@@ -22,6 +25,7 @@ class Card {
     card.classList.add('card', `card--${this.color}`)
     card.appendChild(cardCorner)
     card.appendChild(cardNumber)
+    card.addEventListener('click', this.clickCallback)
     
     this.htmlElement = card
   }
