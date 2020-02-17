@@ -1,76 +1,67 @@
+import Deck from './Deck.js'
 import Card from './Card.js'
 
+const numCardsPerDeck = 7
+
 class Game {
-  constructor(num_players=2, playersNames=[], rootElement=document.body) {
+  constructor(num_players=2, playersNames=['Player1', 'Player2'], rootElement=document.querySelector('main')||document.body) {
     this.num_players = num_players
     this.root = rootElement
-    this.stackOfCards = []
-    this.playersNames = playersNames
-    this.playersDecks = []
-    
 
-    this._init(num_players)
+    this.stackOfCards = new Deck()
+    this.playersDecks = Object.fromEntries(playersNames.map(name => [name, new Deck()]))
+
+    this._init()
   }
 
-  _init(num_players) {
+  _init() {
     this.populateStackOfCards()
-    this.populateDecks(num_players)
-    this.setBoard()
+    this.populatePlayersDecks()
+    this.updateBoard()
   }
 
   populateStackOfCards() {
     for (let color of ['red', 'green', 'blue', 'yellow']) {
       for (let number=0; number < 10; number++) {
-        this.stackOfCards.push(new Card(number, color))
-        this.stackOfCards.push(new Card(number, color))
+        this.stackOfCards.pushCard(new Card(number, color))
+        this.stackOfCards.pushCard(new Card(number, color))
       }
-      this.stackOfCards.push(new Card('+2', color, true))
-      this.stackOfCards.push(new Card('+2', color, true))
+      this.stackOfCards.pushCard(new Card('+2', color, true))
+      this.stackOfCards.pushCard(new Card('+2', color, true))
       
-      this.stackOfCards.push(new Card('C', 'black', true))
-      this.stackOfCards.push(new Card('C', 'black', true))
+      this.stackOfCards.pushCard(new Card('C', 'black', true))
+      this.stackOfCards.pushCard(new Card('C', 'black', true))
     }
-    this.sortStackOfCards()
-    this.actualCard = this.getCardFromGameStack(false)
+
+    this.actualCard = this.stackOfCards.popRandomCard()
   }
 
-  populateDecks(num_players) {
-    for (let i=0; i<this.num_players; i++) {
-      this.playersDecks.push([])
-      for (let j=0; j<7; j++){
-        this.playersDecks[i].push(this.getCardFromGameStack())
+  populatePlayersDecks() {
+    for(let playerName of Object.keys(this.playersDecks)) {
+      this.playersDecks[playerName] = new Deck()
+      for(let i=0; i<numCardsPerDeck; i++) {
+        this.playersDecks[playerName].pushCard(this.stackOfCards.popRandomCard())
       }
     }
-    this.actualPlayer = 0
+    this.actualPlayerIndex = Math.floor(Math.random() * Object.keys(this.playersDecks).length)
   }
 
-  setBoard() {
-    this.deckHtmlElement = document.createElement('div')
-    this.deckHtmlElement.classList.add('playerDeck')
+  updateBoard() {
+    this.actualCardContainerHtml = document.createElement('div')
+    this.actualCardContainerHtml.classList.add('actualCard')
+    this.actualCardContainerHtml.appendChild(this.actualCard.getHtmlCard(false))
 
-    this.actualCardHtmlElement = document.createElement('div')
-    this.actualCardHtmlElement.classList.add('actualCard')
+    this.actualDeckContainerHtml = document.createElement('div')
+    this.actualDeckContainerHtml.classList.add('actualPlayerDeck')
+    this.actualDeckContainerHtml.appendChild(this.getPlayerDeck(this.actualPlayerIndex).getDeckHtmlElement())
 
-    this.root.appendChild(this.actualCardHtmlElement)
-    this.root.appendChild(this.deckHtmlElement)
-
-    this.actualCardHtmlElement.appendChild(this.actualCard.getHtmlCard())
-    this.showPlayerDeck(this.actualPlayer)
+    this.root.appendChild(this.actualCardContainerHtml)
+    this.root.appendChild(this.actualDeckContainerHtml)
   }
 
-  getCardFromGameStack(canReturnSpecial=true) {
-    // return card and remove from stack and can return special
-    return this.stackOfCards[Math.floor(Math.random() * this.stackOfCards.length)]
-  }
-
-  sortStackOfCards() {
-    // Sorts the actual stack of cards
-  }
-
-  showPlayerDeck(num_actual_player) {
-    this.playersDecks[num_actual_player].forEach(card => {
-      this.deckHtmlElement.append(card.getHtmlCard(false))
-    })
+  getPlayerDeck(playerIndex) {
+    let playerName = Object.keys(this.playersDecks)[playerIndex]
+    return this.playersDecks[playerName]
   }
 }
 
