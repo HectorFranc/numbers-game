@@ -58,7 +58,7 @@ class Game {
 
     this.actualCardContainerHtml = this.actualCardContainerHtml || document.createElement('div')
     this.actualCardContainerHtml.classList.add('actualCard')
-    this.actualCardContainerHtml.appendChild(this.actualCard.getHtmlCard(false))
+    this.actualCardContainerHtml.appendChild(this.actualCard.getHtmlCard(false, false))
 
     this.actualDeckContainerHtml = this.actualDeckContainerHtml || document.createElement('div')
     this.actualDeckContainerHtml.classList.add('actualPlayerDeck')

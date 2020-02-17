@@ -30,7 +30,12 @@ class Card {
     this.htmlElement = card
   }
 
-  getHtmlCard(large=true) {
+  getHtmlCard(large=true, withEventListener=true) {
+    this.htmlElement.addEventListener('click', this.clickCallback)
+    if(!withEventListener) {
+      this.htmlElement.removeEventListener('click', this.clickCallback)
+    }
+
     if(large) {
       this.htmlElement.classList.remove('card--small')
       this.htmlElement.classList.add('card--large')
