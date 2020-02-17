@@ -129,7 +129,13 @@ class Game {
         break;
       
       case 'C':
-
+        let color
+        do {
+          color = prompt('Select a color: \n red | blue | yellow | green')
+          color = color.toLowerCase()
+        } while(!['green', 'red', 'blue', 'yellow'].includes(color))
+        this.actualInfo.color = color
+        this.nextPlayer()
         break;
     }
   }
