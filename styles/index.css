@@ -4,12 +4,6 @@
     box-sizing: border-box;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
 .card {
     border: 1px solid black;
@@ -74,20 +68,34 @@ main {
     justify-content: center;
 }
 
+/* ---- Layout ---- */
+
+main {
+    display: grid;
+    grid-template: 40px 1fr / 60% 1fr;
+    gap: 30px;
+    grid-template-areas: "playerName playerName"
+                        "actualCard eatCardButton"
+                        "actualPlayerDeck actualPlayerDeck";
+    justify-items: center;
+    align-items: center;
+}
+
 .playerName {
     font-size: 25px;
     font-family: sans-serif;
     padding: 2px;
     border: 2px solid black;
-    margin: 5px;
+    grid-area: playerName;
 }
 
 .actualPlayerDeck {
-    margin: 10px;
+    grid-area: actualPlayerDeck;
+    padding: 20px;
 }
 
 .actualCard {
-    margin: 5px;
+    grid-area: actualCard;
 }
 
 .eatCardButton {
@@ -99,7 +107,7 @@ main {
     align-items: center;
     justify-content: center;
     border: 10px outset green;
-    margin: 5px;
+    grid-area: eatCardButton;
 }
 
 .eatCardButton:active {
@@ -109,4 +117,24 @@ main {
 .eatCardButton p {
     font-size: 20px;
     font-family: 'Courier New', Courier, monospace;
+}
+
+@media screen and (max-width: 320px) {
+    main {
+        grid-template: 30px 1fr / 1fr;
+        gap: 10px;
+        grid-template-areas: "playerName"
+                            "actualCard"
+                            "eatCardButton"
+                            "actualPlayerDeck";
+    }
+    
+    .eatCardButton {
+        width: 110px;
+        height: 110px;
+        border-width: 5px;
+    }
+    .eatCardButton p {
+        font-size: 15px;
+    }
 }

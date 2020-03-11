@@ -75,8 +75,8 @@ class Game {
 
     this.root.appendChild(this.playerNameContainer)
     this.root.appendChild(this.actualCardContainerHtml)
-    this.root.appendChild(this.actualDeckContainerHtml)
     this.root.appendChild(this.eatCardButton)
+    this.root.appendChild(this.actualDeckContainerHtml)
   }
 
   getPlayerDeck(playerIndex) {
@@ -86,7 +86,7 @@ class Game {
 
   clickCallbackHandler(event, clickedCard) {
     if(this.verifyCorrectCard(clickedCard)) {
-      let normalDisplay = this.root.style.display || 'flex'
+      let normalDisplay = this.root.style.display || 'grid'
       this.root.style.display = 'none'
       setTimeout((() => {
         this.getPlayerDeck(this.actualPlayerIndex).removeCard(clickedCard)
