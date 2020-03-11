@@ -31,6 +31,9 @@ class Game {
       this.stackOfCards.pushCard(new Card('+2', color, true, this.clickCallbackHandler))
       this.stackOfCards.pushCard(new Card('+2', color, true, this.clickCallbackHandler))
       
+      this.stackOfCards.pushCard(new Card('+4', 'black', true, this.clickCallbackHandler))
+      this.stackOfCards.pushCard(new Card('+4', 'black', true, this.clickCallbackHandler))
+
       this.stackOfCards.pushCard(new Card('C', 'black', true, this.clickCallbackHandler))
       this.stackOfCards.pushCard(new Card('C', 'black', true, this.clickCallbackHandler))
     }
@@ -130,19 +133,32 @@ class Game {
         this.nextPlayer()
         this.eatACard()
         this.eatACard()
-        this.nextPlayer()
         break;
       
       case 'C':
-        let color
+        let colorC
         do {
-          color = prompt('Select a color: \n red | blue | yellow | green')
-          color = color.toLowerCase()
-        } while(!['green', 'red', 'blue', 'yellow'].includes(color))
-        this.actualInfo.color = color
+          colorC = prompt('Select a color: \n red | blue | yellow | green')
+          colorC = colorC.toLowerCase()
+        } while(!['green', 'red', 'blue', 'yellow'].includes(colorC))
+        this.actualInfo.color = colorC
+        break;
+
+      case '+4':
+        let color4Plus
+        do {
+          color4Plus = prompt('Select a color: \n red | blue | yellow | green')
+          color4Plus = color4Plus.toLowerCase()
+        } while(!['green', 'red', 'blue', 'yellow'].includes(color4Plus))
+        this.actualInfo.color = color4Plus
         this.nextPlayer()
+        this.eatACard()
+        this.eatACard()
+        this.eatACard()
+        this.eatACard()
         break;
     }
+    this.nextPlayer()
   }
 
   eatACard() {
