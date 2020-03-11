@@ -17,10 +17,9 @@ main {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: 2px;
     display: grid;
-    grid-template: 25% 50% 25% / 25% 50% 25%;
-    grid-template-areas: "card-corner . ."
-                        ". card-number ."
-                        ". . .";
+    grid-template: 25% 50% / 25% 50%;
+    grid-template-areas: "card-corner ."
+                        ". card-number";
 }
 
 .card--small {
@@ -55,10 +54,10 @@ main {
 
 .card__corner {
     color: white;
-    font-size: 50px;
+    font-size: 33px;
     grid-area: card-corner;
     align-self: center;
-    justify-self: center;
+    justify-self: flex-end;
 }
 
 .card__number {
